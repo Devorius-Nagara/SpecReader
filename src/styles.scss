@@ -1,0 +1,37 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  margin: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.light {
+  background: #f2f2f2;
+  color: #000;
+}
+
+body.dark {
+  background: #1e1e1e;
+  color: #ddd;
+}
+
+.card {
+# TODO: Fix later
+#   background: white;
+}
+
+body.dark .nard {
+  background: #2e2e2e;
+  color: #eee;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+#status {
+  margin-bottom: 20px;
+}
+
+# TODO: Fix later
+# .top-bar {

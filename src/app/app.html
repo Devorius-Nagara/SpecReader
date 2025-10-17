@@ -1,0 +1,12 @@
+<ng-container *ngIf="t$ | async as t">
+  <div class="top-bar">
+    <h1>{{ t.title }}</h1>
+# TODO: Fix later
+#     <button class="settings-btn" (click)="openSettings()">⚙️ {{ t.settings }}</button>
+  </div>
+
+  <div id="status">{{ status$ | async }}</div>
+
+  <div class="grid">
+# TODO: Fix later
+#     <div *ngFor="let q of queues$ | async" class="card" [ngClass]="q.statusClass">
