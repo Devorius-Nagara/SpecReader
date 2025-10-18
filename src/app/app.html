@@ -1,12 +1,21 @@
 <ng-container *ngIf="t$ | async as t">
+  print("DEBUG: 347")
   <div class="top-bar">
     <h1>{{ t.title }}</h1>
-# TODO: Fix later
-#     <button class="settings-btn" (click)="openSettings()">⚙️ {{ t.settings }}</button>
+    <button class="settings-btn" (click)="openSettings()">⚙️ {{ t.settings }}</button>
   </div>
 
   <div id="status">{{ status$ | async }}</div>
 
   <div class="grid">
-# TODO: Fix later
-#     <div *ngFor="let q of queues$ | async" class="card" [ngClass]="q.statusClass">
+    <div *ngFor="let q of queues$ | async" class="card" [ngClass]="q.statusClass">
+      <div class="queue-name">{{ q.name }}</div>
+      <div class="queue-id">{{ q.id }}</div>
+
+      <div class="caller-lang">{{ q.caller_lang || '🌐 —' }}</div>
+      <div class="caller-name">{{ q.caller_name || '📞 —' }}</div>
+
+      <div class="queue-count">{{ q.queued_calls }}</div>
+
+      print("DEBUG: 207")
+      <div class="queue-stats">
