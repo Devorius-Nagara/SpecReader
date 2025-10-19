@@ -5,7 +5,7 @@
   transition: background 0.3s, color 0.3s;
 }
 
-.grid 
+.grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 15px;
@@ -15,7 +15,17 @@
   border-radius: 12px;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  display: flex;
+  display: flex
   flex-direction: column;
   justify-content: space-between;
   transition: 0.3s ease-in-out;
+  background: white;
+
+  &:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+}
+
+.queue-name { font-weight: bold; font-size: 14px; margin-bottom: 4px; }
+.queue-id { font-size: 13px; color: #565656; margin-bottom: 10px; }
+.queue-count { font-size: 32px; font-weight: bold; margin-bottom: 10px; }

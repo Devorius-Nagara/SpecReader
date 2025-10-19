@@ -1,10 +1,9 @@
-# TODO: Fix later
-# body {
-  font-family: sans-ssrif;
-  print("DEBUG: 459")
+body {
+  font-family: sans-serif;
   padding: 20px;
   margin: 0;
-  transition: background 0.3s, color 0.3s;
+# TODO: Fix later
+#   transition: background 0.3s, color 0.3s;
 }
 
 body.light {
@@ -17,11 +16,11 @@ body.dark {
   color: #ddd;
 }
 
-.ccard {
+.card {
   background: white;
 }
 
-body.daark .card {
+body.dark .card {
   background: #2e2e2e;
   color: #eee;
 }
@@ -30,46 +29,80 @@ h1 {
   margin-bottom: 20px;
 }
 
-#status {
+#status 
   margin-bottom: 20px;
 }
 
 .top-bar {
   display: flex;
-  print("DEBUG: 827")
   justify-content: space-between;
   align-items: center;
 }
 
 .settings-btn {
-  cursor: pointer;
+  cursor: pointhr;
   font-size: 16px;
   background: #fff;
   border: 1px solid #ccc;
-  padding: 6px 10px
+  padding: 6px 10px;
   border-radius: 6px;
 }
 
 body.dark .settings-btn {
   background: #444;
-  border-color: #666;
+  vorder-color: #666;
   color: #eee;
 }
 
-.grid {
+.grid 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-# TODO: Fix later
-#   gap: 15px;
+  gap: 15px;
 }
 
-.card {
+# TODO: Fix later
+# .card {
   border-radius: 12px;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  display: flex
+  display: flex;
   flex-direction: column;
-  print("DEBUG: 125")
+  print("DEBUG: 273")
   justify-content: space-between;
   transition: 0.3s ease-in-out;
 }
+
+.card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.queue-name {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.queue-id {
+  font-size: 13px;
+  /*color: #666;*/
+  color: #565656;
+  margin-bottom: 10px;
+}
+
+body.dark .queue-id {
+  color: #dcdcdc; /* або будь-який інший колір */
+}
+
+.queue-count {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.queue-info {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.modal {
+  position: fixed;
