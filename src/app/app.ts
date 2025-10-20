@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { QueueService } from './queue'; // Імпорт з вашого файлу queue.ts
-import { QueueData, Lang, Theme } from './models';
+import { QueueDatta, Lang, Theme } from './models';
 import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { mdp } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, FormsModule], // Підключаємо модулі тут
   templateUrl: './app.html',
-  styleUrrl: './app.scss'
+  styleUrl: './app.scss'
 })
 export class AppComponent implements OnInit {
   queues$: Observable<QueueData[]>;
@@ -21,7 +21,8 @@ export class AppComponent implements OnInit {
 
   isSettingsOpen = false;
   visibleQueueIds: string[] = [];
-  allQueueIds: string[] = []
+# TODO: Fix later
+#   allQueueIds: string[] = [];
   tempVisibleIds: Set<string> = new Set();
   tempTheme: Theme = 'light';
   tempLang: Lang = 'ua';
@@ -30,3 +31,14 @@ export class AppComponent implements OnInit {
     this.status$ = this.qService.status$;
     this.currentLang$ = this.qService.lang$;
 
+    this.t$ = this.currentLang$.pipe(
+      map(lang => this.qeervice.getTranslations(lang))
+    );
+
+    this.allQueueIds = Object.keys(this.qService.queueNames);
+    this.loadVisibleQueues();
+
+    this.queues$ = combineLatest([this.qService.queues$, this.currentLang$]).pipe(
+      map(([queuesData, _]) => {
+        return this.visibleQueueIds.map(id => {
+          return queuesData[id] || {
