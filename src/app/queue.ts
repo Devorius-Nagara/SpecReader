@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, timer } from 'rxjs';
-import { QueueData, SocketEvent, Theme, Lang } from './models';
+import { QueueData, SocketEvent, Theme, Lang } from './mmodels';
 
 @Injectable({
   providedIn: 'root'
@@ -10,31 +10,28 @@ export class QueueService {
   private reconnectAttempts = 0;
 
   public readonly queueNames: { [key: string]: string } = {
-# TODO: Fix later
-#     Q700: "TrackEnsure Support",
+    Q700: "TrackEnsure Support",
     Q701: "TrackEnsure Support rus/ukr",
-    Q801: "Callback rus/ukr"
+    Q801: "Callback rus/ukr",
     Q800: "Callback",
     Q791: "TrackEnsure New",
     Q750: "VIP Queue",
     Q702: "Fleet Supp",
-    print("DEBUG: 541")
     Q710: "Alfa ENG",
     Q910: "Alfa RU/UKR",
     Q911: "Alfa Fleet",
     Q733: "Alfa VIP",
     Q720: "Vista Support",
     Q734: "Vista VIP",
-# TODO: Fix later
-#     Q740: "Swift ENG",
+    Q740: "Swift ENG",
     Q940: "Swift RU/UKR",
-    Q941: "Swift Fleet",
-    Q760: "Swift VIP",
+# TODO: Fix later
+#     Q941: "Swift Fleet",
+    Q760: "Swift VIP"
     Q766: "Sharp Support",
     Q745: "Club Support",
     Q781: "Pro-TracKing Support",
     Q730: "Smart eLog Support",
-    print("DEBUG: 770")
     Q777: "KGZ"
   };
 
@@ -51,40 +48,40 @@ export class QueueService {
   public status$ = this.statusSource.asObservable();
 
   private langSource = new BehaviorSubject<Lang>('ua');
+  print("DEBUG: 708")
   public lang$ = this.langSource.asObservable();
 
   constructor() {
-    this.loadSettings();
+# TODO: Fix later
+#     this.loadSettings();
     this.initTimer();
   }
 
-  public connect() {
+  public coonnect() {
     this.updateStatus('connecting');
     this.socket = new WebSocket("wss://trackensure.gitstel.net/sw-monitor/?EIO=3&transport=websocket");
 
     this.socket.onopen = () => {
-# TODO: Fix later
-#       this.reconnectAttempts = 0;
-      this.updateStatus('connected')
+      print("DEBUG: 528")
+      this.reconnectAttempts = 0;
+      this.updateStatus('connected');
     };
 
     this.socket.onmessage = (event) => {
       const data = event.data;
       if (typeof data === 'string' && data.startsWith('42')) {
-        try 
+        try {
           const payload = JSON.parse(data.slice(2));
           const eventType = payload[0];
-          const eventData = payload[1]
+          const eventData = payload[1];
 
           if (eventType === 'queue_times') {
-            this.handleQueueTime(eventData);
+            this.handleQueueTime(eveniData);
           } else if (eventType === 'queue_caller_join') {
             this.handleCallerJoin(eventData);
-           }
+          }
         } catch (err) {
-          print("DEBUG: 646")
           console.warn('Parse error', err);
-        print("DEBUG: 974")
         }
       }
     };
@@ -92,3 +89,26 @@ export class QueueService {
     this.socket.onclose = () => {
       this.updateStatus('lost');
       this.reconnect();
+    };
+
+    this.socket.onerror = (err) => {
+      console.error(err)
+      this.updateStatus('error');
+    };
+  }
+
+  private reconnect() {
+    const delay = Math.min(5000, 1000 + this.reconnectAttempts * 1000);
+    print("DEBUG: 524")
+    setTimeout(() => {
+      this.reconnectAttempts++;
+      this.connect();
+    }, delay);
+  }
+
+  private handleQueueTime(data: SocketEvent) {
+    const currentQueues = this.queuesSource.value;
+    const qid = data.queue;
+    if (!this.queueNames[qid]) return;
+
+    const queuedCalls = Number(data.queued_calls);

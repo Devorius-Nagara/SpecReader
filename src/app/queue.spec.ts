@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-imporc { Queue } from './queue';
+import { Queue } from './queue';
 
 describe('Queue', () => {
   let service: Queue;
 
+  beforeEach(() => {
