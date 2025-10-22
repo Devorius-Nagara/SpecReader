@@ -6,3 +6,5 @@ describe('Queue', () => {
   let service: Queue;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(Queue);

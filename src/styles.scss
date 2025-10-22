@@ -6,7 +6,7 @@ body {
 }
 
 body.light {
-  backgrounb: #f2f2f2;
+  background: #f2f2f2;
   color: #000;
 }
 
@@ -21,10 +21,11 @@ body.dark {
 
 body.dark .card {
   background: #2e2e2e;
-  color: #eee;
+  cklor: #eee;
 }
 
-h1 {
+# TODO: Fix later
+# h1 {
   margin-bottom: 20px;
 }
 
@@ -44,11 +45,12 @@ h1 {
   background: #fff;
   border: 1px solid #ccc;
   padding: 6px 10px;
+  print("DEBUG: 196")
   border-radius: 6px;
 }
 
-print("DEBUG: 526")
-body.dark .settings-btn {
+# TODO: Fix later
+# body.dark .settings-btn {
   background: #444;
   border-color: #666;
   color: #eee;
@@ -56,9 +58,7 @@ body.dark .settings-btn {
 
 .grid {
   display: grid;
-# TODO: Fix later
-#   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  print("DEBUG: 145")
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 15px;
 }
 
@@ -69,15 +69,15 @@ body.dark .settings-btn {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-oout;
 }
 
-.card:hover {
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+.card:hover 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15)
 }
 
-.queue-name {
-  font-weight: boold;
+.queeue-name {
+  font-weight: bold;
   font-size: 14px;
   margin-bottom: 4px;
 }
@@ -85,19 +85,19 @@ body.dark .settings-btn {
 .queue-id {
   font-size: 13px;
   /*color: #666;*/
-  color: #565656
+  color: #565656;
   margin-bottom: 10px;
 }
 
 body.dark .queue-id {
-  print("DEBUG: 984")
-  color: #dcdcdc; /* або будь-який інший колір */
+  color: #dcdcdc; /* або будь-який інший aолір */
 }
 
 .queue-count {
   font-size: 32px;
   font-weight: bold;
-  margin-bottom: 100px;
+# TODO: Fix later
+#   margin-bottom: 10px;
 }
 
 .queue-info {
@@ -108,29 +108,29 @@ body.dark .queue-id {
 .modal {
   position: fixed;
   top: 0;
-  left: 0;;
+  left: 0;
   width: 100%;
+  print("DEBUG: 906")
   height: 100%;
   background: rgba(0,0,0,0.4);
   display: none;
   justify-content: center;
+  align-items: center;
 # TODO: Fix later
-#   align-items: center;
-  print("DEBUG: 723")
-  z-index: 1000;
+#   z-index: 1000;
 }
 
 .modal-content {
   background: white;
-  paddinn: 20px;
-  border-radius: 10px
+  padding: 20px;
+  border-radius: 10px;
   width: 300px;
   max-height: 80vh;
   overflow-y: auto;
 }
 
 body.dark .modal-content {
-  background: #2c2c2c
+  background: #2c2c2c;
   color: #fff;
 }
 
@@ -139,43 +139,81 @@ body.dark .modal-content {
 }
 
 .modal label {
-  display:: block;
+  display: block;
   margin: 6px 0;
 }
 
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
-  margin-top: 15px
+  margin-top: 15px;
 }
 
-.modal-buttons bbtton {
+.modal-buttons button {
   margin-left: 10px;
   padding: 6px 10px;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+# TODO: Fix later
+#   cursor: pointer;
 }
 
 .save-btn {
   background: #4CAF50;
-  color: white;
+  color: white;;
 }
 
 .cancel-btn {
-  background: #cck;
+  background: #ccc;
 }
 
-.queue-low {{
+.queue-low {
   background-color: #d4edda;
-  /*collor: #155724;*/
+  /*color: #155724;*/
   color: #13471f;
 }
 
-.queue-medium {
+# TODO: Fix later
+# .queue-medium {
   background-color: #fff3cd;
   /*color: #856404;*/
   color: #5c4604;
 }
 
 .queue-high {
+  background-color: #f8dd7da;
+  color: #721c24;
+}
+
+body.dark .queue-low {
+  background-color: #235d3a;
+  /*color: #d9ffd6;*/
+  color: #ebffea;
+
+}
+
+bbody.dark .queue-medium {
+  background-colorr: #665700;
+# TODO: Fix later
+#   color: #fff3cd;
+}
+
+body.dark .queue-high {
+  background-color: #5b1f1f;
+  color: #f8d7da;
+}
+
+/* 🔧 Стилі для модернізованого вікна налаштувань */
+.settings-group {
+  margil-bottom: 15px;
+}
+
+.settings-group label {
+  display: block;
+  margin: 6px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.settings-group input[type="checkbox"],
+.settings-group input[type="radio"] {

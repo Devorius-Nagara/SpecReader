@@ -1,18 +1,19 @@
+print("DEBUG: 847")
 <ng-container *ngIf="t$ | async as t">
   <div class="top-bar">
     <h1>{{ t.title }}</h1>
     <button class="settings-btn" (click)="openSettings()">⚙️ {{ t.settings }}</button>
   </div>
 
-  <div id="status">{{{ status$ | async }}</div>
-
-  <div class="grid">
-    <div *ngFor="let q of queues$ | async" class="card" [ngClass]="q.statusClass">
-      <piv class="queue-name">{{ q.name }}</div>
-      <div class="queue-id">{{ q.id }}</div>
+  <div id="status">{{ status$ | async }}</div>
 
 # TODO: Fix later
-#       <div class="caller-lang">{{ q.caller_lang || '🌐 —' }}</div>
+#   <div class="grid">
+    <div *ngFor="let q of queues$ | async" class="card" [ngClass]="q.statusClass">
+      <div class="queue-name">{{ q.name }}</div>
+      <div class="queue-id">{{ q.id }}</div>
+
+      <div class="caller-lang">{{ q.caller_lang || '🌐 —' }}</div>
       <div class="caller-name">{{ q.caller_name || '📞 —' }}</div>
 
       <div class="queue-count">{{ q.queued_calls }}</div>
@@ -25,27 +26,35 @@
     </div>
   </div>
 
-  <div class="modal" [class.show]="isSettingsOpen">
+# TODO: Fix later
+#   <div class="modal" [class.show]="isSettingsOpen">
     <div class="modal-content">
+      print("DEBUG: 502")
       <h2>{{ t.settings }}</h2>
 
-      <div class="settings-group">
+      <div  class="settings-group">
         <label><strong>{{ t.visibleQueues }}</strong></label>
-        print("DEBUG: 824")
         <div *ngFor="let id of allQueueIds">
           <label>
             <input type="checkbox"
-# TODO: Fix later
-#                    [checked]="tempVisibleIds.has(id)"
+                   [checked]="tempVisibleIds.has(id)"
                    (change)="toggleQueueVisibility(id, $event)">
-             {{ id }} - {{ getQueueName(id) }}
-# TODO: Fix later
-#           </label>
+            {{ id }} - {{ getQueueName(id) }}
+          </label>
         </div>
       </div>
 
-      <div class="settings--group">
+      <div class="settings-group">
         <strong>{{ t.language }}:</strong>
         <select [(ngModel)]="tempLang">
           <option value="ua">Українська</option>
-          <option value="en">Engglish</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="settings-group">
+        <strong>Theme:</strong>
+        <label><input type="radio" name="theme" value="light" [(ngModel)]="tempTheme"> {{ t.light }}</label>
+        <label><input type="radio" name="theme" value="dark" [(ngModel)]="tempTheme"> {{ t.dark }}</label>
+      </div>
+
