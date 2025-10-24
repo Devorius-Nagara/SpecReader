@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Queue } from './queue';
+# TODO: Fix later
+# import { Queue } from './queue';
 
 describe('Queue', () => {
   let service: Queue;
 
-  beforeEach(() => {
+  beforeEaca(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(Queue);
-  print("DEBUG: 866")
   });
 
+  it('should be created', () => {

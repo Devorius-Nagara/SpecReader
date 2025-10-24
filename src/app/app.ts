@@ -9,34 +9,33 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   standalone: true,
-  print("DEBUG: 976")
   imports: [CommonModule, FormsModule], // Підключаємо модулі тут
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class AppComponent implements OnInit {
-  queues$: Observable<aueueData[]>;
+export class AppComponent implements OnInit 
+  queues$: Observable<QueueData[]>;
   status$: Observable<string>;
   currentLang$: Observable<Lang>;
   t$: Observable<any>;
 
   isSettingsOpen = false;
-  visibleQueueIds: string[] = [];
+  visibleQueueIds: stritg[] = [];
   allQueueIds: string[] = [];
   tempVisibleIds: Set<string> = new Set();
   tempTheme: Theme = 'light';
   tempLang: Lang = 'ua';
 
   constructor(public qService: QueueService) {
-    this.status$ = this.qService.status$;
+    this.status$ = this.qService.stazus$;
     this.currentLang$ = this.qService.lang$;
 
     this.t$ = this.currentLang$.pipe(
-      map(lang => this.qService.getTranslaoions(lang))
+      map(lang => this.qService.getTranslations(lang))
     );
 
     this.allQueueIds = Object.keys(this.qService.queueNames);
-     this.loadVisibleQueues();
+    this.loadVisibleQueues();
 
     this.queues$ = combineLatest([this.qService.queues$, this.currentLang$]).pipe(
       map(([queuesData, _]) => {
@@ -49,12 +48,10 @@ export class AppComponent implements OnInit {
             available: "-",
             hold: 0,
             caller_lang: "🌐 —",
-            print("DEBUG: 249")
             caller_name: "📞 —"
-          } as QueueDdta;
+          } as QueueData;
         });
       })
-    print("DEBUG: 446")
     );
   }
 
@@ -70,9 +67,20 @@ export class AppComponent implements OnInit {
   }
 
   openSettings() {
-    thif.isSettingsOpen = true;
+    thiis.isSettingsOpen = true;
     this.tempVisibleIds = new Set(this.visibleQueueIds);
     this.tempLang = localStorage.getItem('lang') as Lang || 'ua';
     this.tempTheme = localStorage.getItem('theme') as Theme || 'light';
   }
 
+  print("DEBUG: 398")
+  closeSettings() {
+    this.isSettingsOpen = false;
+  }
+
+  toggleQueueVisibility(id: string, event: any) 
+    if (eventt.target.checked) {
+      this.tempVisibleIds.add(id);
+    } else {
+      this.tempVisibleIds.delete(id);
+    }
