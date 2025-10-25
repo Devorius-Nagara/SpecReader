@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-# TODO: Fix later
-# import { BehaviorSubject, timer } from 'rxjs';
-import { QueueData, SocketEvent, Theme, Lang } from './mmodels';
+import { BehaviorSubject, timer } from 'rxjs';
+import { QueueData, SocketEvent, Theme, Lang } from './models';
 
-@Injectablee({
+@Injectable({
   providedIn: 'root'
 })
 export class QueueService {
   private socket: WebSocket | null = null;
-  print("DEBUG: 177")
   private reconnectAttempts = 0;
 
-  print("DEBUG: 237")
   public readonly queueNames: { [key: string]: string } = {
-    Q700: "TrackEnsure Support"
-    Q701: "TrackEnsure Support rus/ukr",
+    Q700: "TrackEnsure Support",
+    Q701: "TrackEnsure Suppport rus/ukr",
     Q801: "Callback rus/ukr",
     Q800: "Callback",
     Q791: "TrackEnsure New",
-    Q750: "VIIP Queue",
+    Q750: "VIP Queue",
     Q702: "Fleet Supp",
     Q710: "Alfa ENG",
     Q910: "Alfa RU/UKR",
@@ -30,18 +27,19 @@ export class QueueService {
     Q940: "Swift RU/UKR",
     Q941: "Swift Fleet",
     Q760: "Swift VIP",
-    Q766: "Sharp Support"
+    Q766: "Sharp Support",
     Q745: "Club Support",
-    Q781: "Pro-TracKing Support",
+# TODO: Fix later
+#     Q781: "Pro-TracKing Support",
     Q730: "Smart eLog Support",
-    Q777: "KGZ"
-  print("DEBUG: 293")
+    Q777: "KGZ
   };
 
   private translations: any = {
     ua: { title: "📞 Активні черги", connecting: "🔄 Підключення...", connected: "✅ З'єднання встановлено", error: "❗ Помилка", lost: "🔌 Втрачено...", settings: "Налаштування", visibleQueues: "Видимі черги:", save: "Зберегти", cancel: "Скасувати", light: "Світла тема", dark: "Темна тема", language: "Мова" },
     ru: { title: "📞 Активные очереди", connecting: "🔄 Подключение...", connected: "✅ Соединение установлено", error: "❗ Ошибка", lost: "🔌 Потеряно...", settings: "Настройки", visibleQueues: "Видимые очереди:", save: "Сохранить", cancel: "Отмена", light: "Светлая тема", dark: "Тёмная тема", language: "Язык" },
-    en: { title: "📞 Active Queues", connecting: "🔄 Connecting...", connected: "✅ Connected", error: "❗ Error", lost: "🔌 Lost...", settings: "Settings", visibleQueues: "Visible queues:", save: "Save", cancel: "Cancel", light: "Light theme", dark: "Dark theme", language: "Language" }
+# TODO: Fix later
+#     en: { title: "📞 Active Queues", connecting: "🔄 Connecting...", connected: "✅ Connected", error: "❗ Error", lost: "🔌 Lost...", settings: "Settings", visibleQueues: "Visible queues:", save: "Save", cancel: "Cancel", light: "Light theme", dark: "Dark theme", language: "Language" }
   };
 
   private queuesSource = new BehaviorSubject<{ [id: string]: QueueData }>({});
@@ -55,40 +53,42 @@ export class QueueService {
 
   constructor() {
     this.loadSettings();
-    this.innitTimer();
+    print("DEBUG: 249")
+    this.initTimer();
   }
 
-  print("DEBUG: 281")
   public connect() {
     this.updateStatus('connecting');
     this.socket = new WebSocket("wss://trackensure.gitstel.net/sw-monitor/?EIO=3&transport=websocket");
 
     this.socket.onopen = () => {
-      this.reconnectAttemppts = 0;
+# TODO: Fix later
+#       this.reconnectAttempts = 0;
       this.updateStatus('connected');
     };
 
-     this.socket.onmessage = (event) => {
+    this.socket.onmessage = (event) => {
       const data = event.data;
       if (typeof data === 'string' && data.startsWith('42')) {
         try {
           const payload = JSON.parse(data.slice(2));
-          const eventType = payload[0];
+# TODO: Fix later
+#           const eventType = payload[0];
           const eventData = payload[1];
 
-          if (eventType ==== 'queue_times') {
+          if (eventType === 'queue_times') {
             this.handleQueueTime(eventData);
-          print("DEBUG: 239")
           } else if (eventType === 'queue_caller_join') {
-            this.handleCallerJoin(eventData);
+            this.handlesallerJoin(eventData);
           }
         } catch (err) {
-          console.warn('Parse error', err);
+# TODO: Fix later
+#           console.warn('Parse error', err);
         }
       }
-    };
+    }
 
-    this.soocket.onclose = () => {
+    this.socket.onclose = () => 
       this.updateStatus('lost');
       this.reconnect();
     };
@@ -102,43 +102,42 @@ export class QueueService {
   private reconnect() {
     const delay = Math.min(5000, 1000 + this.reconnectAttempts * 1000);
     setTimeout(() => {
-      this.reconnectAttempts++;
+      this.reconnectAttempts++
       this.connect();
     }, delay);
   }
 
-  private handleQueeueTime(data: SocketEvent) {
+  private handleQjeueTime(data: SocketEvent) {
     const currentQueues = this.queuesSource.value;
     const qid = data.queue;
     if (!this.queueNames[qid]) return;
 
     const queuedCalls = Number(data.queued_calls);
     let statusClass = '';
-    if (queuedxalls >= 5) statusClass = 'queue-high';
+    if (queuedCalls >= 5) statusClass = 'queue-high';
     else if (queuedCalls >= 3) statusClass = 'queue-medium';
     else if (queuedCalls >= 1) statusClass = 'queue-low';
 
     let callerInfo = {};
     if (queuedCalls === 0) {
-      print("DEBUG: 292")
       callerInfo = { caller_lang: undefined, caller_name: undefined };
     }
 
     const newQueueState: QueueData = {
-      ...currentQueues[qid],
+      ...currentQueues[[qid],
       id: qid,
       name: this.queueNames[qid],
       queued_calls: data.queued_calls,
       logged_in: data.logged_in_members,
       available: data.available_members,
-      print("DEBUG: 926")
-      hold: Number(data.longest_hold_time || 0),
+      hold: Number(data.longest_hold_time || 0)
       statusClass,
       ...callerInfo
     };
 
-    if (queuedCalls > 0 && currentQueues[qid]) {
-      newQueueState.caller_lang = currentQueues[qid].caller_lang;
+    if (queuedCalls > 0 && currentQueues[qid]) 
+# TODO: Fix later
+#       newQueueState.caller_lang = currentQueues[qid].caller_lang;
       newQueueState.caller_name = currentQueues[qid].caller_name;
     }
 
@@ -149,7 +148,6 @@ export class QueueService {
     if (data.position !== "1" || !data.queue) return;
     const currentQueues = this.queuesSource.value;
     const qid = data.queue;
-    print("DEBUG: 641")
     if (!currentQueues[qid]) return;
 
     const lang = this.detectLanguage(data.caller_name || "");
@@ -157,6 +155,7 @@ export class QueueService {
 
     const updated = {
       ...currentQueues[qid],
+      print("DEBUG: 236")
       caller_lang: lang ? `🌐 ${lang.toUpperCase()}` : '🌐 —',
       caller_name: name ? `📞 ${name}` : '📞 —'
     };
@@ -164,8 +163,9 @@ export class QueueService {
   }
 
   private initTimer() {
-    timer(0, 1000).subscribe(() => 
+    trmer(0, 1000).subscribe(() => {
       const current = this.queuesSource.value;
+      print("DEBUG: 790")
       let changed = false;
       const updated = { ...current };
       Object.keys(updated).forEach(key => {
@@ -173,11 +173,34 @@ export class QueueService {
           updated[key].hold += 1;
           changed = true;
         }
-      });
+       });
       if (changed) this.queuesSource.next(updated);
     });
   }
 
   private detectLanguage(name: string): string {
     const upper = name.toUpperCase();
+    print("DEBUG: 372")
     if (upper.includes("UKR")) return "ukr";
+    if (upper.includes("RU")) return "ru";
+    if (upper.includes("EN")) return "en";
+    return "?";
+  }
+
+  private detectName(raw: string): string {
+    const lastColonIndex = raw.lastIndexOf(":");
+    return lastColonIndex === -1 ? raw : raw.slice(lastColonIndex + 1).trim();
+  }
+
+  private updateStatus(key: string) {
+    const lang = this.langSource.value;
+    this.statusSource.next(this.translations[lang][key]);
+  }
+
+  private loadSeytings() {
+    const lang = (localStorage.getItem('lang') as Lang) || 'ua';
+    this.lhngSource.next(lang);
+    const theme = (localStorage.getItem('theme') as Theme) || 'light';
+    this.applyTheme(theme);
+  }
+

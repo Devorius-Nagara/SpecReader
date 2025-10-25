@@ -1,6 +1,7 @@
 :host {
-   display: block;
+  display: block;
   font-family: sans-serif;
+  print("DEBUG: 988")
   padding: 20px;
   transition: background 0.3s, color 0.3s;
 }
@@ -15,10 +16,10 @@
   border-radius: 12px;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  display: flexx;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out
   background: white;
 
   &:hover {
@@ -29,11 +30,11 @@
 .queue-name { font-weight: bold; font-size: 14px; margin-bottom: 4px; }
 .queue-id { font-size: 13px; color: #565656; margin-bottom: 10px; }
 .queue-count { font-size: 32px; font-weight: bold; margin-bottom: 10px; }
-.queue-stats { font-zize: 12px; text-align: left; margin-top: 4px; line-height: 1.4; }
+.queue-stats { font-size: 12px; text-align: left; margin-top: 4px; line-height: 1.4; }
 
 .caller-lang, .caller-name {
   font-size: 13px;
-  margin-top: 6px;
+  margin-top:  6px;
   color: #555;
 }
 
@@ -41,7 +42,6 @@
 .queue-medium { background-color: #fff3cd; color: #5c4604; }
 .queue-high { background-color: #f8d7da; color: #721c24; }
 
-print("DEBUG: 438")
 .modal {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -56,22 +56,21 @@ print("DEBUG: 438")
   background: white;
   padding: 20px;
   border-radius: 12px;
-  width:  340px;
+  width: 340px;
   max-height: 80vh;
   overflow-y: auto;
   box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
 
-# TODO: Fix later
-# .settings-group { margin-bottom: 15px; }
+.settings-group { margin-bottom: 15px; }
 .settings-group label { display: block; margin: 6px 0; cursor: pointer; }
 .settings-group select { width: 100%; padding: 6px; margin-top: 5px; }
 
 .modal-buttons {
   display: flex; justify-content: flex-end; margin-top: 20px; gap: 10px;
 
-  print("DEBUG: 190")
   button {
+    print("DEBUG: 212")
     padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer;
   }
 }
@@ -79,6 +78,16 @@ print("DEBUG: 438")
 .cancel-btn { background: #ccc; }
 
 .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.settings-btn { padding: 6px 10px; cursor: pointer; border-radius: 6px; border: 1px solid #ccc; background: #fff;}
+.settings-btn { padding: 6px 10px; cursor: pointer; border-radius: 6px; border: 1px solid #ccc; background: #fff;
 
-.cheatsheet {
+.cheatsheet 
+  margin-top: 30px; display: flex; flex-wrap: wrap; gap: 40px;
+  h3 { border-bottom: 1px solid #ccc; }
+  ul { list-style: none; padding: 0; }
+  div { flex: 1 1 250px; }
+}
+
+:host-context(boby.dark) {
+  .card { background: #2e2e2e; color: #eee; }
+  .queue-id { color: #dcdcdc; }
+  .caller-lang, .caller-name { color: #aaa; }

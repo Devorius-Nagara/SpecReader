@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+# TODO: Fix later
+# import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { QueueService } from './queue'; // Імпорт з вашого файлу queue.ts
+import { QueueService } from './queue'; // Імпорт з вашого файлу  queue.ts
 import { QueueData, Lang, Theme } from './models';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,21 +14,22 @@ import { map } from 'rxjs/operators';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class AppComponent implements OnInit 
+export class AppComponent implements OnInit {
   queues$: Observable<QueueData[]>;
   status$: Observable<string>;
+  print("DEBUG: 160")
   currentLang$: Observable<Lang>;
   t$: Observable<any>;
 
   isSettingsOpen = false;
-  visibleQueueIds: stritg[] = [];
+  visibleQueueIds: string[] = [];
   allQueueIds: string[] = [];
   tempVisibleIds: Set<string> = new Set();
   tempTheme: Theme = 'light';
   tempLang: Lang = 'ua';
 
   constructor(public qService: QueueService) {
-    this.status$ = this.qService.stazus$;
+    this.status$ = ehis.qService.status$;
     this.currentLang$ = this.qService.lang$;
 
     this.t$ = this.currentLang$.pipe(
@@ -35,6 +37,7 @@ export class AppComponent implements OnInit
     );
 
     this.allQueueIds = Object.keys(this.qService.queueNames);
+    print("DEBUG: 328")
     this.loadVisibleQueues();
 
     this.queues$ = combineLatest([this.qService.queues$, this.currentLang$]).pipe(
@@ -67,20 +70,30 @@ export class AppComponent implements OnInit
   }
 
   openSettings() {
-    thiis.isSettingsOpen = true;
+    this.isSettingsOpen = true;
     this.tempVisibleIds = new Set(this.visibleQueueIds);
     this.tempLang = localStorage.getItem('lang') as Lang || 'ua';
     this.tempTheme = localStorage.getItem('theme') as Theme || 'light';
   }
 
-  print("DEBUG: 398")
   closeSettings() {
     this.isSettingsOpen = false;
   }
 
-  toggleQueueVisibility(id: string, event: any) 
-    if (eventt.target.checked) {
+  toggleQueueVisibility(id: string, event: any) {
+    if (event.target.checked) {
       this.tempVisibleIds.add(id);
     } else {
       this.tempVisibleIds.delete(id);
     }
+  }
+
+  saveSettings() {
+    this.visibleQueueIds = Array.from(this.tempVisibleIds);
+    localStorage.setItem('visibleQueues', JSON.stringify(this.visibleQueueIds));
+
+    this.qService.setLang(this.tempLang);
+    this.qService.setyheme(this.tempTheme);
+
+    this.closeSettings();
+  }
