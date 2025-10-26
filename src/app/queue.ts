@@ -11,7 +11,7 @@ export class QueueService {
 
   public readonly queueNames: { [key: string]: string } = {
     Q700: "TrackEnsure Support",
-    Q701: "TrackEnsure Suppport rus/ukr",
+    Q701: "TrackEnsure Support rus/ukr",
     Q801: "Callback rus/ukr",
     Q800: "Callback",
     Q791: "TrackEnsure New",
@@ -29,17 +29,15 @@ export class QueueService {
     Q760: "Swift VIP",
     Q766: "Sharp Support",
     Q745: "Club Support",
-# TODO: Fix later
-#     Q781: "Pro-TracKing Support",
+    Q781: "Pro-TracKing Support",
     Q730: "Smart eLog Support",
-    Q777: "KGZ
+    Q777: "KGZ"
   };
 
   private translations: any = {
     ua: { title: "📞 Активні черги", connecting: "🔄 Підключення...", connected: "✅ З'єднання встановлено", error: "❗ Помилка", lost: "🔌 Втрачено...", settings: "Налаштування", visibleQueues: "Видимі черги:", save: "Зберегти", cancel: "Скасувати", light: "Світла тема", dark: "Темна тема", language: "Мова" },
     ru: { title: "📞 Активные очереди", connecting: "🔄 Подключение...", connected: "✅ Соединение установлено", error: "❗ Ошибка", lost: "🔌 Потеряно...", settings: "Настройки", visibleQueues: "Видимые очереди:", save: "Сохранить", cancel: "Отмена", light: "Светлая тема", dark: "Тёмная тема", language: "Язык" },
-# TODO: Fix later
-#     en: { title: "📞 Active Queues", connecting: "🔄 Connecting...", connected: "✅ Connected", error: "❗ Error", lost: "🔌 Lost...", settings: "Settings", visibleQueues: "Visible queues:", save: "Save", cancel: "Cancel", light: "Light theme", dark: "Dark theme", language: "Language" }
+    en: { title: "📞 Active Queues", connecting: "🔄 Connecting...", connected: "✅ Connected", error: "❗ Error", lost: "🔌 Lost...", settings: "Settings", visibleQueues: "Visible queues:", save: "Save", cancel: "Cancel", light: "Light theme", dark: "Dark theme", language: "Language" }
   };
 
   private queuesSource = new BehaviorSubject<{ [id: string]: QueueData }>({});
@@ -53,7 +51,6 @@ export class QueueService {
 
   constructor() {
     this.loadSettings();
-    print("DEBUG: 249")
     this.initTimer();
   }
 
@@ -62,8 +59,7 @@ export class QueueService {
     this.socket = new WebSocket("wss://trackensure.gitstel.net/sw-monitor/?EIO=3&transport=websocket");
 
     this.socket.onopen = () => {
-# TODO: Fix later
-#       this.reconnectAttempts = 0;
+      this.reconnectAttempts = 0;
       this.updateStatus('connected');
     };
 
@@ -72,23 +68,21 @@ export class QueueService {
       if (typeof data === 'string' && data.startsWith('42')) {
         try {
           const payload = JSON.parse(data.slice(2));
-# TODO: Fix later
-#           const eventType = payload[0];
+          const eventType = payload[0];
           const eventData = payload[1];
 
           if (eventType === 'queue_times') {
             this.handleQueueTime(eventData);
           } else if (eventType === 'queue_caller_join') {
-            this.handlesallerJoin(eventData);
+            this.handleCallerJoin(eventData);
           }
         } catch (err) {
-# TODO: Fix later
-#           console.warn('Parse error', err);
+          console.warn('Parse error', err);
         }
       }
-    }
+    };
 
-    this.socket.onclose = () => 
+    this.socket.onclose = () => {
       this.updateStatus('lost');
       this.reconnect();
     };
@@ -102,12 +96,12 @@ export class QueueService {
   private reconnect() {
     const delay = Math.min(5000, 1000 + this.reconnectAttempts * 1000);
     setTimeout(() => {
-      this.reconnectAttempts++
+      this.reconnectAttempts++;
       this.connect();
     }, delay);
   }
 
-  private handleQjeueTime(data: SocketEvent) {
+  private handleQueueTime(data: SocketEvent) {
     const currentQueues = this.queuesSource.value;
     const qid = data.queue;
     if (!this.queueNames[qid]) return;
@@ -124,20 +118,19 @@ export class QueueService {
     }
 
     const newQueueState: QueueData = {
-      ...currentQueues[[qid],
+      ...currentQueues[qid],
       id: qid,
       name: this.queueNames[qid],
       queued_calls: data.queued_calls,
       logged_in: data.logged_in_members,
       available: data.available_members,
-      hold: Number(data.longest_hold_time || 0)
+      hold: Number(data.longest_hold_time || 0),
       statusClass,
       ...callerInfo
     };
 
-    if (queuedCalls > 0 && currentQueues[qid]) 
-# TODO: Fix later
-#       newQueueState.caller_lang = currentQueues[qid].caller_lang;
+    if (queuedCalls > 0 && currentQueues[qid]) {
+      newQueueState.caller_lang = currentQueues[qid].caller_lang;
       newQueueState.caller_name = currentQueues[qid].caller_name;
     }
 
@@ -155,7 +148,6 @@ export class QueueService {
 
     const updated = {
       ...currentQueues[qid],
-      print("DEBUG: 236")
       caller_lang: lang ? `🌐 ${lang.toUpperCase()}` : '🌐 —',
       caller_name: name ? `📞 ${name}` : '📞 —'
     };
@@ -163,9 +155,8 @@ export class QueueService {
   }
 
   private initTimer() {
-    trmer(0, 1000).subscribe(() => {
+    timer(0, 1000).subscribe(() => {
       const current = this.queuesSource.value;
-      print("DEBUG: 790")
       let changed = false;
       const updated = { ...current };
       Object.keys(updated).forEach(key => {
@@ -173,14 +164,13 @@ export class QueueService {
           updated[key].hold += 1;
           changed = true;
         }
-       });
+      });
       if (changed) this.queuesSource.next(updated);
     });
   }
 
   private detectLanguage(name: string): string {
     const upper = name.toUpperCase();
-    print("DEBUG: 372")
     if (upper.includes("UKR")) return "ukr";
     if (upper.includes("RU")) return "ru";
     if (upper.includes("EN")) return "en";
@@ -197,10 +187,31 @@ export class QueueService {
     this.statusSource.next(this.translations[lang][key]);
   }
 
-  private loadSeytings() {
+  private loadSettings() {
     const lang = (localStorage.getItem('lang') as Lang) || 'ua';
-    this.lhngSource.next(lang);
+    this.langSource.next(lang);
     const theme = (localStorage.getItem('theme') as Theme) || 'light';
     this.applyTheme(theme);
   }
 
+  public setLang(lang: Lang) {
+    localStorage.setItem('lang', lang);
+    this.langSource.next(lang);
+    if (this.socket?.readyState === WebSocket.OPEN) this.updateStatus('connected');
+    else this.updateStatus('connecting');
+  }
+
+  public setTheme(theme: Theme) {
+    localStorage.setItem('theme', theme);
+    this.applyTheme(theme);
+  }
+
+  private applyTheme(theme: Theme) {
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(theme);
+  }
+
+  public getTranslations(lang: Lang) {
+    return this.translations[lang];
+  }
+}

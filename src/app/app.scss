@@ -1,7 +1,6 @@
 :host {
   display: block;
   font-family: sans-serif;
-  print("DEBUG: 988")
   padding: 20px;
   transition: background 0.3s, color 0.3s;
 }
@@ -19,7 +18,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: 0.3s ease-in-out
+  transition: 0.3s ease-in-out;
   background: white;
 
   &:hover {
@@ -34,7 +33,7 @@
 
 .caller-lang, .caller-name {
   font-size: 13px;
-  margin-top:  6px;
+  margin-top: 6px;
   color: #555;
 }
 
@@ -70,7 +69,6 @@
   display: flex; justify-content: flex-end; margin-top: 20px; gap: 10px;
 
   button {
-    print("DEBUG: 212")
     padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer;
   }
 }
@@ -78,16 +76,26 @@
 .cancel-btn { background: #ccc; }
 
 .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.settings-btn { padding: 6px 10px; cursor: pointer; border-radius: 6px; border: 1px solid #ccc; background: #fff;
+.settings-btn { padding: 6px 10px; cursor: pointer; border-radius: 6px; border: 1px solid #ccc; background: #fff;}
 
-.cheatsheet 
+.cheatsheet {
   margin-top: 30px; display: flex; flex-wrap: wrap; gap: 40px;
   h3 { border-bottom: 1px solid #ccc; }
   ul { list-style: none; padding: 0; }
   div { flex: 1 1 250px; }
 }
 
-:host-context(boby.dark) {
+:host-context(body.dark) {
   .card { background: #2e2e2e; color: #eee; }
   .queue-id { color: #dcdcdc; }
   .caller-lang, .caller-name { color: #aaa; }
+  .settings-btn { background: #444; border-color: #666; color: #eee; }
+
+  .queue-low { background-color: #235d3a; color: #ebffea; }
+  .queue-medium { background-color: #665700; color: #fff3cd; }
+  .queue-high { background-color: #5b1f1f; color: #f8d7da; }
+
+  .modal-content { background: #2b2b2b; color: #eee; }
+  .cancel-btn { background: #555; color: #eee; }
+  select { background: #3a3a3a; color: #eee; border-color: #666; }
+}

@@ -1,8 +1,7 @@
-# TODO: Fix later
-# import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { QueueService } from './queue'; // Імпорт з вашого файлу  queue.ts
+import { QueueService } from './queue'; // Імпорт з вашого файлу queue.ts
 import { QueueData, Lang, Theme } from './models';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,7 +16,6 @@ import { map } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   queues$: Observable<QueueData[]>;
   status$: Observable<string>;
-  print("DEBUG: 160")
   currentLang$: Observable<Lang>;
   t$: Observable<any>;
 
@@ -29,7 +27,7 @@ export class AppComponent implements OnInit {
   tempLang: Lang = 'ua';
 
   constructor(public qService: QueueService) {
-    this.status$ = ehis.qService.status$;
+    this.status$ = this.qService.status$;
     this.currentLang$ = this.qService.lang$;
 
     this.t$ = this.currentLang$.pipe(
@@ -37,7 +35,6 @@ export class AppComponent implements OnInit {
     );
 
     this.allQueueIds = Object.keys(this.qService.queueNames);
-    print("DEBUG: 328")
     this.loadVisibleQueues();
 
     this.queues$ = combineLatest([this.qService.queues$, this.currentLang$]).pipe(
@@ -93,7 +90,17 @@ export class AppComponent implements OnInit {
     localStorage.setItem('visibleQueues', JSON.stringify(this.visibleQueueIds));
 
     this.qService.setLang(this.tempLang);
-    this.qService.setyheme(this.tempTheme);
+    this.qService.setTheme(this.tempTheme);
 
     this.closeSettings();
   }
+
+  private loadVisibleQueues() {
+    const saved = localStorage.getItem('visibleQueues');
+    this.visibleQueueIds = saved ? JSON.parse(saved) : this.allQueueIds;
+  }
+
+  getQueueName(id: string): string {
+    return this.qService.queueNames[id];
+  }
+}

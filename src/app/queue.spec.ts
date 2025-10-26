@@ -13,3 +13,4 @@ describe('Queue', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+});
